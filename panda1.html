@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spec-tacular Intro</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #fffbea;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: 'Patrick Hand', cursive;
+    }
+
+    .face {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      background: #ffefd5;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    .eye {
+      position: absolute;
+      top: 65px;
+      width: 30px;
+      height: 30px;
+      background: #000;
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .eye.left {
+      left: 45px;
+    }
+
+    .eye.right {
+      right: 45px;
+    }
+
+    .spec {
+      position: absolute;
+      top: 60px;
+      width: 40px;
+      height: 40px;
+      border: 3px solid #333;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4); /* semi-transparent glass */
+      backdrop-filter: blur(2px);
+      z-index: 2;
+      animation: fadeOut 5s forwards;
+    }
+
+    .spec.left {
+      left: 40px;
+    }
+
+    .spec.right {
+      right: 40px;
+    }
+
+    .bridge {
+      position: absolute;
+      top: 78px;
+      left: 75px;
+      width: 30px;
+      height: 2px;
+      background: #333;
+      z-index: 2;
+      animation: fadeOut 5s forwards;
+    }
+
+    .message {
+      font-size: 1.4rem;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .loading-bar {
+      width: 200px;
+      height: 8px;
+      background: #e0e0e0;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress {
+      width: 0%;
+      height: 100%;
+      background: #ffc107;
+      animation: progressBar 5s linear forwards;
+    }
+
+    @keyframes fadeOut {
+      0%, 70% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes progressBar {
+      from { width: 0%; }
+      to { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="face">
+    <div class="eye left"></div>
+    <div class="eye right"></div>
+    <div class="spec left"></div>
+    <div class="spec right"></div>
+    <div class="bridge"></div>
+  </div>
+  <div class="message">Now remove your specs and enjoy the melody...</div>
+  <div class="loading-bar">
+    <div class="progress"></div>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      window.location.href = 'song.html';
+    }, 5000);
+  </script>
+</body>
+</html>

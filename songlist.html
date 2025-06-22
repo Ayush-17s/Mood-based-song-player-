@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="stylesheet" href="style.css">
+<head>
+  <meta charset="UTF-8">
+  <title>All Songs</title>
+  
+</head>
+<body class="song-list">
+
+  <button onclick="goBack()" class="back-btn">← Back</button>
+  <h1 class="title">All Songs</h1>
+
+  <input type="text" id="search-bar" placeholder="Search for a song..." class="search-bar">
+
+  <div id="song-list" class="song-list"></div>
+
+  <audio id="audio-player" controls style="display: none;"></audio>
+
+  <script>
+  const allSongs = [
+  { name: "Kabhi kabhi Aditi", file: "Kabhi kabhi Aditi 1.mp3" },
+  { name: "Kabhi kabhi Aditi", file: "Kabhi kabhi Aditi 2.mp3" },
+  { name: "Kabhi kabhi Aditi", file: "Kabhi kabhi Aditi 3.mp3" },
+  { name: "Befikra", file: "Befikra.mp3" },
+  { name: "Tum hi ho bandu", file: "Tum Hi Ho Bandhu.mp3" },
+  { name: "Ik kudi", file: "Ik kudi.mp3" },
+  { name: "Doob Jane ko", file: "Aankhon Mein Doob Jaane Ko.mp3" },
+  { name: "Saudabaji", file: "saudebaazi.mp3" },
+  { name: "Hawayein", file: "Hawayein.mp3" },
+  { name: "Mere Liye Tum Kaafi Ho", file: "Mere Liye Tum Kaafi Ho.mp3" },
+  { name: "ishq hai", file: "ishq hai.mp3" },
+  { name: "ishq hai", file: "ishq hai 2.mp3" },
+  { name: "hosanna", file: "hosanna.mp3" },
+  { name: "Savera", file: "Savera.mp3" },
+  { name: "Badtameez Dil", file: "Badtameez Dil.mp3" },
+  { name: "Love You Zindagi", file: "Love You Zindagi.mp3" },
+  { name: "Character Dheela", file: "Character Dheela.mp3" },
+  { name: "One Two Three Four", file: "One Two Three Four.mp3" },
+  { name: "Agar Tum Saath Ho", file: "Agar Tum Saath Ho.mp3" },
+  { name: "Ilahi", file: "Ilahi.mp3" },
+  { name: "Matargashti", file: "Matargashti.mp3" },
+  { name: "Way Back Home", file: "Way Back Home.mp3" },
+  { name: "Tera Yaar Hoon Main", file: "Tera Yaar Hoon Main.mp3" },
+  { name: "Timro-Pratiksha", file: "Timro-Pratiksha.mp3" },
+  { name: "Ratiyaan", file: "Ratiyaan.mp3" },
+  { name: "Radha-Rani-Lage", file: "Radha-Rani-Lage.mp3" },
+  { name: "alone", file: "alone.mp3" },
+  { name: "pata nahi", file: "pata nahi.mp3" },
+  { name: "chor", file: "chor.mp3" },
+  { name: "Hum Mar Jayenge", file: "Hum Mar Jayenge.mp3" },
+  { name: "Rang Lageya", file: "Rang Lageya.mp3" },
+  { name: "Chammak Challo", file: "Chammak Challo.mp3" },
+  { name: "Raabta", file: "Raabta.mp3" },
+  { name: "Paaro", file: "Paaro.mp3" },
+{ name: "", file: ".mp3" },
+   
+   
+   
+   { name: "Snap", file: "snap.mp3" },
+{ name: "A Thousand Years", file: "a-thousand-years.mp3" },
+{ name: "Wanna Be Yours", file: "wanna-be-yours.mp3" },
+{ name: "Dance Monkey", file: "dance-monkey.mp3" },
+{ name: "Shapire", file: "shapire.mp3" },
+{ name: "Shape of You", file: "shape-of-you.mp3" },
+{ name: "Perfect", file: "perfect.mp3" },
+{ name: "Your Eyes", file: "your-eyes.mp3" },
+{ name: "She Don’t Give A F**k", file: "she-dont-give.mp3" },
+{ name: "Pyaar Hota Hai Kayi Baar", file: "pyaar-hota.mp3" },
+{ name: "Cherry Cherry Lady", file: "cherry-cherry-lady.mp3" },
+    // Add more songs here
+  ];
+
+  const songList = document.getElementById("song-list");
+const searchBar = document.getElementById("search-bar");
+const audioPlayer = document.getElementById("audio-player");
+
+let currentPlayingIndex = -1;
+
+// Render and sort songs alphabetically
+function renderSongs(filter = "") {
+  songList.innerHTML = "";
+
+  const filteredSongs = allSongs
+    .filter(song => song.name.toLowerCase().includes(filter.toLowerCase()))
+    .sort((a, b) => a.name.localeCompare(b.name)); // Sort alphabetically A-Z
+
+  filteredSongs.forEach((song, displayIndex) => {
+    const div = document.createElement("div");
+    div.className = "song-entry";
+
+    const name = document.createElement("span");
+    name.textContent = song.name;
+
+    const btn = document.createElement("button");
+    btn.textContent = "Play";
+    btn.className = "btn play-btn";
+
+    btn.onclick = () => {
+      if (currentPlayingIndex === displayIndex && !audioPlayer.paused) {
+        audioPlayer.pause();
+        audioPlayer.currentTime = 0;
+        currentPlayingIndex = -1;
+        updatePlayButtons(-1);
+      } else {
+        audioPlayer.src = song.file;
+        audioPlayer.play();
+        currentPlayingIndex = displayIndex;
+        updatePlayButtons(displayIndex);
+      }
+    };
+
+    div.appendChild(name);
+    div.appendChild(btn);
+    songList.appendChild(div);
+  });
+}
+
+// Update Play/Stop button states
+function updatePlayButtons(activeIndex) {
+  const buttons = document.querySelectorAll(".play-btn");
+  buttons.forEach((btn, i) => {
+    btn.textContent = i === activeIndex ? "Stop" : "Play";
+  });
+}
+
+// Reset play state when song ends
+audioPlayer.addEventListener("ended", () => {
+  currentPlayingIndex = -1;
+  updatePlayButtons(-1);
+});
+
+// Search filter handler
+searchBar.addEventListener("input", () => {
+  renderSongs(searchBar.value);
+});
+
+// Back button
+function goBack() {
+  if (document.referrer) {
+    window.history.back();
+  } else {
+    alert("No page to go back to.");
+  }
+}
+
+// Initial render
+renderSongs();
+</script>
+
+</body>
+</html>
